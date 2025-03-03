@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Table from "./components/Table";
+import TableLoader from "./components/TableLoader";
 const PAGE_LIMIT = 5;
 
 function App() {
@@ -32,7 +34,7 @@ function App() {
 				apiData.slice(PAGE_LIMIT * page, (page + 1) * PAGE_LIMIT)
 			);
 		}
-	}, [page]);
+	}, [apiData, page]);
 
 	const handlePageChange = (type = "next") => {
 		if (type === "next") {
@@ -42,51 +44,21 @@ function App() {
 		}
 	};
 
-	const isPreviousBtnDisabled = page === 0;
-	const isNextBtnDisabled = page > apiData.length / PAGE_LIMIT - 1;
+	const showPrevious = page !== 0;
+	const showNext = page <= apiData?.length / PAGE_LIMIT - 1;
 
 	return (
 		<>
-			<h3>Frontend assignment</h3>
+			<h2>SaaSLabs Frontend assignment</h2>
 			{paginatedData ? (
-				<>
-					<table>
-						<tr>
-							<th>S.No.</th>
-							<th>Percentage funded</th>
-							<th>Amount pledged</th>
-						</tr>
-						{paginatedData.map((item) => {
-							return (
-								<tr>
-									<td>{item["s.no"]}</td>
-									<td>{item["percentage.funded"]}</td>
-									<td>{item["amt.pledged"]}</td>
-								</tr>
-							);
-						})}
-					</table>
-					<div className="pagination">
-						<button
-							disabled={isPreviousBtnDisabled}
-							onClick={() => {
-								handlePageChange("previous");
-							}}
-						>
-							Previous
-						</button>
-						<button
-							onClick={() => {
-								handlePageChange("next");
-							}}
-							disabled={isNextBtnDisabled}
-						>
-							Next
-						</button>
-					</div>
-				</>
+				<Table
+					paginatedData={paginatedData}
+					handlePageChange={handlePageChange}
+					showPrevious={showPrevious}
+					showNext={showNext}
+				/>
 			) : (
-				"Loading fund data"
+				<TableLoader />
 			)}
 		</>
 	);
