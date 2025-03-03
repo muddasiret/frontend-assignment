@@ -54,7 +54,16 @@ th {
 	color: #4b5563;
 	font-weight: 500;
 }
-th,td{
+th,
+td {
 	text-align: left;
-  padding: 10px 15px;
+	padding: 10px 15px;
+}
+
+.pagination {
+	margin: 20px 0;
+	display: flex;
+}
+.pagination button{
+	margin-right: 10px;
 }
